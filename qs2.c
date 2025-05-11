@@ -1,0 +1,141 @@
+/*Create a linked list of customers with telephone numbers. Write a menu-driven program to 
+add customers and delete particular customers.
+*/
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+struct node{
+    char name[20];
+    int num;
+    struct node *link;
+}*head,*ptr,*ptr1;
+
+struct node* create(char c[],int n){
+    struct node* temp=(struct node*)malloc(sizeof(struct node));
+    strcpy(temp->name,c);
+    temp->num=n;
+    temp->link=NULL;
+    return temp;
+}
+
+void insert(char c[],int n){
+    struct node* temp=create(c,n);
+    if(head==NULL){
+        head=temp;
+    }
+    else{
+        ptr=head;
+        while(ptr->link!=NULL){
+            ptr=ptr->link;
+        }
+        ptr->link=temp;
+    }
+}
+
+void delete(char c[]){
+    if(head==NULL){
+       printf("LIST EMPTY\n");
+    }
+    if(strcmp(head->name,c)==0){
+        ptr=head;
+        head=head->link;
+        free(ptr);
+    }
+    else{
+        ptr=head;
+        ptr1=head;
+        while (ptr!=NULL)
+        {
+            if(strcmp(ptr->name,c)==0&&ptr->link==NULL){
+                ptr1->link=NULL;
+                free(ptr);
+            }
+            if(strcmp(ptr->name,c)==0){
+                ptr1->link=ptr->link;
+                free(ptr);
+            }
+            ptr1=ptr;
+            ptr=ptr->link;
+        }
+        
+    }
+}
+void display(){
+    if(head==NULL){
+       printf("LIST EMPTY\n");
+    }
+     else{
+        ptr=head;
+        ptr1=head;
+         printf("LIST\n");
+        while (ptr!=NULL)
+        {
+           printf("Name : %s   Number : %d\n",&ptr->name,ptr->num);
+           ptr=ptr->link;
+        }
+     }
+}
+
+void main(){
+    printf("MENU\n");
+    printf("1.insert   2.delete   3.display   4.exit\n");
+    int ch;
+    do{
+    printf("Enter choice\n");
+    scanf("%d",&ch);
+    char c[20];
+    int n;
+    switch (ch)
+    {
+    case 1: printf("Enter name\n");
+             scanf("%s",c);
+            printf("Enter number\n");
+            scanf("%d",&n);
+            insert(c,n);
+            break;
+    case 2: printf("Enter name\n");
+             scanf("%s",c);
+            delete(c);
+            break;
+    case  3: display();
+              break;     
+    case  4: printf("EXITING CODE\n");
+              break;          
+    default:printf("INVALID CHOICE\n");
+        break;
+    }
+    }while(ch!=4);
+}  
+/* OUTPUT
+MENU
+1.insert   2.delete   3.display   4.exit
+Enter choice
+1
+Enter name
+abc
+Enter number
+654
+Enter choice
+1
+Enter name
+bcvx
+Enter number
+466789
+Enter choice
+3
+LIST
+Name : abc   Number : 654
+Name : bcvx   Number : 466789
+Enter choice
+2
+Enter name
+abc
+Enter choice
+3
+LIST
+Name : bcvx   Number : 466789
+Enter choice
+4
+EXITING CODE
+*/ 
